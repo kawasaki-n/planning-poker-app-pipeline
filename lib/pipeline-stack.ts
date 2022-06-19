@@ -36,7 +36,6 @@ import {
 import { Bucket, BucketAccessControl } from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
 import * as dotenv from "dotenv";
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 dotenv.config();
 
@@ -75,7 +74,14 @@ export class PlanningPokerAppStack extends Stack {
       input: sourceOutput,
       project: buildProject,
       outputs: [buildArtifact],
-      environmentVariables: {},
+      environmentVariables: {
+        REACT_APP_WEB_SOCKET_URL: {
+          value: process.env.REACT_APP_WEB_SOCKET_URL,
+        },
+        REACT_APP_API_URL: {
+          value: process.env.REACT_APP_API_URL,
+        },
+      },
     });
 
     const bucket = new Bucket(this, "PlanningPokerAppBucket", {
